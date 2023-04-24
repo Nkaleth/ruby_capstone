@@ -31,5 +31,9 @@ describe Book do
       @book_bad = Book.new(Date.new(2020, 4, 25), false, 'Jorge Abrahan', 'bad')
       expect(@book_bad.send(:can_be_archived?)).to be_truthy
     end
+    it 'Should be able to be archived since is older than 10 years' do
+      @book_bad = Book.new(Date.new(2012, 4, 25), false, 'Jorge Abrahan', 'good')
+      expect(@book_bad.send(:can_be_archived?)).to be_truthy
+    end
   end
 end
