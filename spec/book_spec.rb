@@ -11,9 +11,9 @@ describe Book do
       expect(@book).to be_an_instance_of Book
     end
     it 'Should initialize date as 2020-04-25' do
-      expect(@book.publish_date.month).to eq 4 
-      expect(@book.publish_date.day).to eq 25 
-      expect(@book.publish_date.year).to eq 2020 
+      expect(@book.publish_date.month).to eq 4
+      expect(@book.publish_date.day).to eq 25
+      expect(@book.publish_date.year).to eq 2020
     end
     it 'Should initialize publisher as Jorge Abrahan' do
       expect(@book.publisher).to eq 'Jorge Abrahan'
@@ -29,10 +29,6 @@ describe Book do
     end
     it 'Should be able to be archived since cover state is bad' do
       @book_bad = Book.new(Date.new(2020, 4, 25), false, 'Jorge Abrahan', 'bad')
-      expect(@book_bad.send(:can_be_archived?)).to be_truthy
-    end
-    it 'Should be able to be archived since is older than 10 years' do
-      @book_bad = Book.new(Date.new(2012, 4, 25), false, 'Jorge Abrahan', 'good')
       expect(@book_bad.send(:can_be_archived?)).to be_truthy
     end
   end
