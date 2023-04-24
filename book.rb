@@ -3,7 +3,7 @@ require './item'
 
 class Book < Item
   attr_accessor :publisher, :cover_state
-  
+
   def initialize(publish_date, archived, publisher, cover_state, id = SecureRandom.uuid)
     super(publish_date, archived, id)
     @publisher = publisher
@@ -11,7 +11,8 @@ class Book < Item
   end
 
   private
+
   def can_be_archived?
-    return (@cover_state == 'bad' || super)
+    (@cover_state == 'bad' || super)
   end
 end
