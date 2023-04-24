@@ -1,6 +1,6 @@
 class Label
   attr_reader :id
-  attr_accessor :title, :color
+  attr_accessor :title, :color, :items
 
   def initialize(title, color, id = SecureRandom.uuid)
     @id = id
@@ -10,7 +10,6 @@ class Label
   end
 
   def add_item(item)
-    @items.push(item)
     item.label = self
   end
 end
