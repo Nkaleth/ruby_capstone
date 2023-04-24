@@ -22,4 +22,10 @@ describe Book do
       expect(@book.cover_state).to eq 'good'
     end
   end
+
+  describe '#can_be_archived?' do
+    it 'Shouldn\'t be able to be archived since is not older than 10 years and cover state is good' do
+      expect(@book.send(:can_be_archived?)).to be_falsy
+    end
+  end
 end
