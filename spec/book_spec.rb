@@ -27,5 +27,9 @@ describe Book do
     it 'Shouldn\'t be able to be archived since is not older than 10 years and cover state is good' do
       expect(@book.send(:can_be_archived?)).to be_falsy
     end
+    it 'Should be able to be archived since cover state is bad' do
+      @book_bad = Book.new(Date.new(2020, 4, 25), false, 'Jorge Abrahan', 'bad')
+      expect(@book_bad.send(:can_be_archived?)).to be_truthy
+    end
   end
 end
