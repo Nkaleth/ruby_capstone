@@ -24,5 +24,9 @@ describe Label do
     it 'Should add an item to the label items array' do
       expect(@label.instance_variable_get(:@items).length).to be 1
     end
+    it 'Should add the label to the item' do
+      expect(@item.label.title).to eq 'Label'
+      expect(@item.label.color).to eq 'red'
+    end
   end
 end
