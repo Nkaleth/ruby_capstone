@@ -1,5 +1,6 @@
 require './ask'
 require './book'
+require './store'
 
 class App
   attr_accessor :books, :labels
@@ -8,6 +9,7 @@ class App
     @books = []
     @labels = []
     @ask = Ask.new
+    @store = Store.new
   end
 
   def add_book
@@ -28,5 +30,10 @@ class App
     @labels.each do |label|
       puts "Title: #{label.title}, Color: #{label.color}"
     end
+  end
+
+  def save_data
+    @store.write(@books, 'books.json')
+    @store.write(@labels, 'labels.json')
   end
 end
