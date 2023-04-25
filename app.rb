@@ -24,6 +24,24 @@ class App
     @labels.push(Label.new(@ask.string('Title'), @ask.string('Color')))
   end
 
+  def display_label_options(category)
+    if category == 'book'
+      list_books(display_num: true)
+      return @books
+    end
+    if category == 'album'
+      # list_albums(display_num: true)
+      # return @albums
+      print 'Album selected'
+    end
+    if category == 'game'
+      # list_games(display_num: true)
+      # return @games
+      print 'Game selected'
+    end
+    []
+  end
+
   def add_label_to_item
     return puts 'You need to create a label first!' if @labels.length == 0
 
