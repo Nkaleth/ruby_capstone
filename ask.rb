@@ -51,4 +51,13 @@ class Ask
       puts 'Option not valid!'
     end
   end
+
+  def number_between(max, min = 0)
+    loop do
+      print 'Write the number of the item you want to select: '
+      option = gets.chomp.to_i
+      return option if option.between?(min, max)
+      puts 'Number is not valid!'
+    end
+  end
 end
