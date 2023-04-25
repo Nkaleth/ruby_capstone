@@ -1,6 +1,7 @@
 require 'securerandom'
 class Author
   attr_accessor :first_name, :last_name
+  attr_reader :items
 
   def initialize(first_name, last_name, items = [], _id = SecureRandom.uuid)
     @first_name = first_name
@@ -8,8 +9,7 @@ class Author
     @items = items
   end
 
-  def add_item=(item)
-    @items.push(item)
-    item.author << self
+  def add_item(item) 
+    item.author = self
   end
 end

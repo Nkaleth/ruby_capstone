@@ -1,5 +1,5 @@
 require 'securerandom'
-require './item.rb'
+require './item'
 
 class Game < Item
   attr_reader :multiplayer, :last_played_at
