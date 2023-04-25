@@ -1,6 +1,8 @@
 require './ask'
 require './book'
+require './label'
 require './store'
+require 'date'
 
 class App
   attr_accessor :books, :labels
@@ -35,5 +37,15 @@ class App
   def save_data
     @store.write(@books, 'books.json')
     @store.write(@labels, 'labels.json')
+  end
+
+  def load_books
+    @store.read('books.json').each do |book|
+      @books.push(Book.new(Date.new(book['publish_date']['year'], book['publish_date']['month'], book['publish_date']['day']), book['archived'], book['publisher'], book['cover_state'], book['id']))
+    end
+  end
+
+  def load_data
+    load_books
   end
 end
