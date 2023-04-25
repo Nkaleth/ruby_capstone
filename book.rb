@@ -26,8 +26,8 @@ class Book < Item
     }
   end
 
-  def to_json
-    as_obj().to_json
+  def to_json(*_args)
+    as_obj.to_json
   end
 
   private

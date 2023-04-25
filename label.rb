@@ -14,11 +14,11 @@ class Label
       id: @id,
       title: @title,
       color: @color
-    } 
+    }
   end
 
-  def to_json
-    as_json().to_json
+  def to_json(*_args)
+    as_json.to_json
   end
 
   def add_item(item)
