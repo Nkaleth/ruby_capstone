@@ -11,7 +11,8 @@ class App
   end
 
   def add_book
-    @books.push(Book.new(@ask.date, @ask.boolean('Archived?'), @ask.string('Publisher'), @ask.option('Cover state', ['good', 'bad'])))
+    @books.push(Book.new(@ask.date, @ask.boolean('Archived?'), @ask.string('Publisher'),
+                         @ask.option('Cover state', %w[good bad])))
     puts "Book created successfully!\n\n"
   end
 
