@@ -15,4 +15,12 @@ class App
     @books.push(book)
     puts "Book created successfully!\n\n"
   end
+
+  def list_books
+    puts "Amount of books: #{@books.length}"
+    @books.each do |book|
+      puts "Publish date: #{book.publish_date}, Publisher: #{book.publisher}, Cover state: #{book.cover_state}"
+      p book
+    end
+  end
 end
