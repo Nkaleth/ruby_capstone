@@ -40,7 +40,7 @@ class Ask
   end
 
   def option(question, options)
-    puts question.to_s
+    puts question
     # display options
     options.each_with_index { |option, num| puts "#{num + 1}) #{option}" }
     loop do
