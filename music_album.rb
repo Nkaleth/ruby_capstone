@@ -12,7 +12,7 @@ class MusicAlbum < Item
     @id = SecureRandom.uuid
   end
 
-  # private
+  private
 
   def can_be_archived?
     super && @on_spotify
