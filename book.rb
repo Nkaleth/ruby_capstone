@@ -21,7 +21,8 @@ class Book < Item
       },
       archived: @archived,
       publisher: @publisher,
-      cover_state: @cover_state
+      cover_state: @cover_state,
+      label_id: @label&.id || ''
     }
   end
 
