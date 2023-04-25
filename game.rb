@@ -16,5 +16,3 @@ class Game < Item
     false
   end
 end
-game = Game.new(DateTime.new(2001, 2, 3), true, true, DateTime.new(2022, 2, 3))
-print game.can_be_archived?

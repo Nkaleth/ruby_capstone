@@ -20,8 +20,8 @@ def run_list_option(opt, app)
   when 3 then app.list_labels
   when 4 then puts 'Music albums list'
   when 5 then puts 'Genres list'
-  when 6 then puts 'Games list'
-  when 7 then puts 'Authors list'
+  when 6 then app.list_games
+  when 7 then app.list_authors
   end
 end
 
@@ -29,7 +29,7 @@ def run_add_option(opt, app)
   case opt
   when 8 then app.add_book
   when 9 then puts 'Add music album'
-  when 10 then puts 'Add game'
+  when 10 then app.add_game
   end
 end
 
