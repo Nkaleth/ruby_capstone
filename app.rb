@@ -45,7 +45,7 @@ class App
   def list_games
     puts "Amount of games: #{@games.length}"
     @games.each do |game|
-      puts "Publish date: #{game.publish_date}, Multiplayer?: #{game.multiplayer}, Date last played: #{game.last_played_at}"
+      puts "Publish_date:#{game.publish_date}, Multiplayer?:#{game.multiplayer}, last_played_at:#{game.last_played_at}"
     end
   end
 
