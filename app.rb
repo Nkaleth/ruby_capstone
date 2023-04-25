@@ -21,7 +21,7 @@ class App
   def list_books
     puts "Amount of books: #{@books.length}"
     @books.each do |book|
-      puts "Publish date: #{book.publish_date}, Publisher: #{book.publisher}, Cover state: #{book.cover_state}"
+      puts "Publish date: #{book.publish_date.strftime("%m/%d/%y")}, Publisher: #{book.publisher}, Cover state: #{book.cover_state}"
     end
   end
 
