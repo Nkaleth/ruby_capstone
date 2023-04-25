@@ -14,10 +14,10 @@ def display_options
   print 'Write the number of the option you want to choose: '
 end
 
-def run_list_option(opt)
+def run_list_option(opt, app)
   case opt
-  when 2 then puts 'Books list'
-  when 3 then puts 'Labels list'
+  when 2 then app.list_books
+  when 3 then app.list_labels
   when 4 then puts 'Music albums list'
   when 5 then puts 'Genres list'
   when 6 then puts 'Games list'
@@ -25,22 +25,23 @@ def run_list_option(opt)
   end
 end
 
-def run_add_option(opt)
+def run_add_option(opt, app)
   case opt
-  when 8 then puts 'Add book'
+  when 8 then app.add_book
   when 9 then puts 'Add music album'
   when 10 then puts 'Add game'
   end
 end
 
-def run_option(opt)
+def run_option(opt, app)
   case opt
-  when 2..7 then run_list_option(opt)
-  when 8..10 then run_add_option(opt)
+  when 2..7 then run_list_option(opt, app)
+  when 8..10 then run_add_option(opt, app)
   end
 end
 
 def main
+  app = App.new
   loop do
     # get option
     display_options
