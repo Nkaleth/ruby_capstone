@@ -53,7 +53,7 @@ def main
     opt = gets.chomp.to_i
     # evaluate option
     case opt
-    when 1 then
+    when 1
       app.save_data
       abort 'Thank you for using the app!'
     when 2..12 then run_option(opt, app)

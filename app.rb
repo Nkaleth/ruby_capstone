@@ -43,7 +43,7 @@ class App
   end
 
   def add_label_to_item
-    return puts 'You need to create a label first!' if @labels.length == 0
+    return puts 'You need to create a label first!' if @labels.empty?
 
     category = @ask.option('Which item you want to add a label to', %w[book album game])
     puts 'Choose the item'
@@ -59,7 +59,9 @@ class App
   def list_books(display_num: false)
     puts "Amount of books: #{@books.length}" unless display_num
     @books.each_with_index do |book, i|
-      puts "#{display_num ? "#{i}) " : ''}Publish date: #{book.publish_date.strftime("%m/%d/%y")}, Publisher: #{book.publisher}, Cover state: #{book.cover_state}"
+      num = display_num ? "#{i}) " : ''
+      date = book.publish_date.strftime('%m/%d/%y')
+      puts "#{num}Publish date: #{date}, Publisher: #{book.publisher}, Cover state: #{book.cover_state}"
     end
   end
 
@@ -84,14 +86,16 @@ class App
   def load_books
     @store.read('books.json').each do |book|
       # create and add book to books array
-      b = Book.new(Date.new(book['publish_date']['year'], book['publish_date']['month'], book['publish_date']['day']), book['archived'], book['publisher'], book['cover_state'], book['id'])
+      b = Book.new(Date.new(book['publish_date']['year'], book['publish_date']['month'], book['publish_date']['day']),
+                   book['archived'], book['publisher'], book['cover_state'], book['id'])
       @books.push(b)
       # if it has a label
       label_id = book['label_id']
       next if label_id == ''
+
       # find it's label and add item to label
       label = @labels.find { |l| l.id == label_id }
-      label&.add_item(b) unless label.nil?
+      label&.add_item(b)
     end
   end
 

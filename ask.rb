@@ -57,6 +57,7 @@ class Ask
       print 'Write the number of the item you want to select: '
       option = gets.chomp.to_i
       return option if option.between?(min, max)
+
       puts 'Number is not valid!'
     end
   end
