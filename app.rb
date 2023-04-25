@@ -23,7 +23,21 @@ class App
   def add_label
     @labels.push(Label.new(@ask.string('Title'), @ask.string('Color')))
   end
-  
+
+  def add_label_to_item
+    return puts 'You need to create a label first!' if @labels.length == 0
+
+    category = @ask.option('Which item you want to add a label to', %w[book album game])
+    puts 'Choose the item'
+    array = display_label_options(category)
+    item_index = @ask.number_between(array.length - 1)
+    puts 'Choose the label'
+    list_labels(display_num: true)
+    label_index = @ask.number_between(@labels.length - 1)
+    @labels[label_index].add_item(array[item_index])
+    puts 'Item added to label successfully!'
+  end
+
   def list_books(display_num: false)
     puts "Amount of books: #{@books.length}" unless display_num
     @books.each_with_index do |book, i|
