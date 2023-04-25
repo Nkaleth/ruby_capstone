@@ -39,6 +39,12 @@ class App
     @store.write(@labels, 'labels.json')
   end
 
+  def load_labels
+    @store.read('labels.json').each do |label|
+      @labels.push(Label.new(label['title'], label['color'], label['id']))
+    end
+  end
+
   def load_books
     @store.read('books.json').each do |book|
       @books.push(Book.new(Date.new(book['publish_date']['year'], book['publish_date']['month'], book['publish_date']['day']), book['archived'], book['publisher'], book['cover_state'], book['id']))
@@ -46,6 +52,7 @@ class App
   end
 
   def load_data
+    load_labels
     load_books
   end
 end
