@@ -16,9 +16,9 @@ class Ask
       puts 'Invalid date!'
     end
     Date.new(year, month, day)
-    rescue ArgumentError => e
-      puts 'Invalid date!'
-      date
+  rescue ArgumentError
+    puts 'Invalid date!'
+    date
   end
 
   def boolean(question)
