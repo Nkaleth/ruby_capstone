@@ -28,4 +28,14 @@ class Ask
       puts 'Invalid answer!'
     end
   end
+
+  def string(question)
+    loop do
+      print "#{question}: "
+      answer = gets.chomp
+      return answer if answer != ''
+
+      puts 'You can\'t submit an empty answer!'
+    end
+  end
 end
