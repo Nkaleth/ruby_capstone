@@ -83,7 +83,15 @@ class App
 
   def load_books
     @store.read('books.json').each do |book|
-      @books.push(Book.new(Date.new(book['publish_date']['year'], book['publish_date']['month'], book['publish_date']['day']), book['archived'], book['publisher'], book['cover_state'], book['id']))
+      # create and add book to books array
+      b = Book.new(Date.new(book['publish_date']['year'], book['publish_date']['month'], book['publish_date']['day']), book['archived'], book['publisher'], book['cover_state'], book['id'])
+      @books.push(b)
+      # if it has a label
+      label_id = book['label_id']
+      next if label_id == ''
+      # find it's label and add item to label
+      label = @labels.find { |l| l.id == label_id }
+      label&.add_item(b) unless label.nil?
     end
   end
 
