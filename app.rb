@@ -20,17 +20,17 @@ class App
     puts "Book created successfully!\n\n"
   end
 
-  def list_books
-    puts "Amount of books: #{@books.length}"
-    @books.each do |book|
-      puts "Publish date: #{book.publish_date.strftime("%m/%d/%y")}, Publisher: #{book.publisher}, Cover state: #{book.cover_state}"
+  def list_books(display_num: false)
+    puts "Amount of books: #{@books.length}" unless display_num
+    @books.each_with_index do |book, i|
+      puts "#{display_num ? "#{i}) " : ''}Publish date: #{book.publish_date.strftime("%m/%d/%y")}, Publisher: #{book.publisher}, Cover state: #{book.cover_state}"
     end
   end
 
-  def list_labels
-    puts "Amount of labels: #{@labels.length}"
-    @labels.each do |label|
-      puts "Title: #{label.title}, Color: #{label.color}"
+  def list_labels(display_num: false)
+    puts "Amount of labels: #{@labels.length}" unless display_num
+    @labels.each_with_index do |label, i|
+      puts "#{display_num ? "#{i}) " : ''}Title: #{label.title}, Color: #{label.color}"
     end
   end
 
