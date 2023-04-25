@@ -20,6 +20,10 @@ class App
     puts "Book created successfully!\n\n"
   end
 
+  def add_label
+    @labels.push(Label.new(@ask.string('Title'), @ask.string('Color')))
+  end
+  
   def list_books(display_num: false)
     puts "Amount of books: #{@books.length}" unless display_num
     @books.each_with_index do |book, i|
