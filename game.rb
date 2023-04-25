@@ -14,4 +14,3 @@ class Game < Item
     ((Date.today.year - @last_played_at.year) > 2) && super
   end
 end
-game = Game.new(DateTime.new(2001, 2, 3), true, true, DateTime.new(2022, 2, 3))
