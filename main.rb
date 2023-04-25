@@ -1,3 +1,5 @@
+require './app'
+
 def display_options
   puts '1 - Exit and Save'
   puts '2 - List all books'
@@ -46,7 +48,7 @@ def main
     # evaluate option
     case opt
     when 1 then abort 'Thank you for using the app!'
-    when 2..10 then run_option(opt)
+    when 2..10 then run_option(opt, app)
     else
       puts 'Option not valid!'
     end
