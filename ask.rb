@@ -17,4 +17,15 @@ class Ask
     end
     Date.new(year, month, day)
   end
+
+  def boolean(question)
+    valid_answers = %w[Y N]
+    loop do
+      print "#{question} [Y/N]: "
+      answer = gets.chomp
+      return (answer.upcase == 'Y') if valid_answers.include?(answer.upcase)
+
+      puts 'Invalid answer!'
+    end
+  end
 end
