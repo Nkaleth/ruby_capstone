@@ -107,7 +107,7 @@ class App
     load_labels
     load_books
   end
-  
+
   def add_game
     puts '(publish_date, archived, multiplayer, last_played_at)'
     game = Game.new(@ask.date, @ask.boolean('Archived?'), @ask.boolean('Multiplayer?'), @ask.date)
