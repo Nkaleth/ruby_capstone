@@ -6,7 +6,7 @@ def display_options
   puts '3 - List all labels'
   puts '4 - List all music albums'
   puts '5 - List all genres'
-  puts '6 - List of games'
+  puts '6 - List all games'
   puts '7 - List all authors'
   puts '8 - Add a book'
   puts '9 - Add a music album'

@@ -1,4 +1,5 @@
 require 'securerandom'
+require 'json'
 require './item'
 
 class Book < Item
@@ -8,6 +9,25 @@ class Book < Item
     super(publish_date, archived, id)
     @publisher = publisher
     @cover_state = cover_state
+  end
+
+  def as_obj
+    {
+      id: @id,
+      publish_date: {
+        year: @publish_date.year,
+        month: @publish_date.month,
+        day: @publish_date.day
+      },
+      archived: @archived,
+      publisher: @publisher,
+      cover_state: @cover_state,
+      label_id: @label&.id || ''
+    }
+  end
+
+  def to_json(*_args)
+    as_obj.to_json
   end
 
   private
