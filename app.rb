@@ -2,6 +2,8 @@ require './ask'
 require './book'
 require './label'
 require './store'
+require './game'
+require './author'
 require 'date'
 
 class App
@@ -10,6 +12,8 @@ class App
   def initialize
     @books = []
     @labels = []
+    @games = []
+    @authors = []
     @ask = Ask.new
     @store = Store.new
   end
@@ -102,5 +106,26 @@ class App
   def load_data
     load_labels
     load_books
+  end
+  
+  def add_game
+    puts '(publish_date, archived, multiplayer, last_played_at)'
+    game = Game.new(@ask.date, @ask.boolean('Archived?'), @ask.boolean('Multiplayer?'), @ask.date)
+    @games.push(game)
+    puts "Game created successfully!\n\n"
+  end
+
+  def list_games
+    puts "Amount of games: #{@games.length}"
+    @games.each do |game|
+      puts "Publish_date:#{game.publish_date}, Multiplayer?:#{game.multiplayer}, last_played_at:#{game.last_played_at}"
+    end
+  end
+
+  def list_authors
+    puts "Amount of authors: #{@authors.length}"
+    @authors.each do |author|
+      puts "First Name: #{author.first_name}, Last Name: #{author.last_name}"
+    end
   end
 end
