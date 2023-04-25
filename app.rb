@@ -23,4 +23,11 @@ class App
       p book
     end
   end
+
+  def list_labels
+    puts "Amount of labels: #{@labels.length}"
+    @labels.each do |label|
+      puts "Title: #{label.title}, Color: #{label.color}"
+    end
+  end
 end
