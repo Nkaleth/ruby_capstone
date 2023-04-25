@@ -38,4 +38,17 @@ class Ask
       puts 'You can\'t submit an empty answer!'
     end
   end
+
+  def option(question, options)
+    puts question.to_s
+    # display options
+    options.each_with_index { |option, num| puts "#{num + 1}) #{option}" }
+    loop do
+      print 'Write the number according to the option you want to choose: '
+      answer = gets.chomp.to_i
+      return options[answer - 1] if answer.between?(1, options.length)
+
+      puts 'Option not valid!'
+    end
+  end
 end
