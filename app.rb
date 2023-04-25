@@ -11,7 +11,7 @@ class App
   end
 
   def add_book
-    book = Book.new(@ask.date, @ask.boolean('Archived?'), @ask.string('Publisher'), @ask.string('Cover state'))
+    book = Book.new(@ask.date, @ask.boolean('Archived?'), @ask.string('Publisher'), @ask.option('Cover state', ['good', 'bad']))
     @books.push(book)
     puts "Book created successfully!\n\n"
   end
@@ -20,7 +20,6 @@ class App
     puts "Amount of books: #{@books.length}"
     @books.each do |book|
       puts "Publish date: #{book.publish_date}, Publisher: #{book.publisher}, Cover state: #{book.cover_state}"
-      p book
     end
   end
 
