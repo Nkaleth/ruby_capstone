@@ -11,14 +11,11 @@ class Ask
       month = gets.chomp.to_i
       print 'Day: '
       day = gets.chomp.to_i
-      return if day != 0 && month != 0 && year != 0 && month.between?(1, 12) && day.between?(1, 31)
+      break if day != 0 && month != 0 && year != 0 && month.between?(1, 12) && day.between?(1, 31)
 
       puts 'Invalid date!'
     end
     Date.new(year, month, day)
-  rescue ArgumentError
-    puts 'Invalid date!'
-    date
   end
 
   def boolean(question)
