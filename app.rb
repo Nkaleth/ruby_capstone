@@ -6,19 +6,21 @@ require './game'
 require './author'
 require './music_album'
 require 'date'
+require './load'
 
 class App
   attr_accessor :books, :labels
 
   def initialize
-    @books = []
     @labels = []
-    @games = []
+    @books = []
     @authors = []
+    @games = []
     @music_albums = []
     @genres = []
     @ask = Ask.new
     @store = Store.new
+    @load = Load.new(@labels, @books, @authors, @games, @music_albums, @genres)
   end
 
   def add_book
@@ -30,109 +32,6 @@ class App
   def add_label
     @labels.push(Label.new(@ask.string('Title'), @ask.string('Color')))
     puts "Label created successfully\n\n"
-  end
-
-  def display_label_options(category)
-    case category
-    when 'book' then list_books(display_num: true)
-      return @books
-    when 'album' then list_music_albums(display_num: true)
-      return @music_albums
-    when 'game' then list_games(display_num: true)
-      return @games
-    else
-      []
-    end
-  end
-
-  def assign_item_to_label
-    return puts 'You need to create a label first!' if @labels.empty?
-
-    category = @ask.option('Which item you want to add a label to', %w[book album game])
-    puts 'Choose the item'
-    array = display_label_options(category)
-    return puts 'There are no items of that category at the moment!' if array.empty?
-
-    item_index = @ask.number_between(array.length - 1)
-    puts 'Choose the label'
-    list_labels(display_num: true)
-    label_index = @ask.number_between(@labels.length - 1)
-    @labels[label_index].add_item(array[item_index])
-    puts "Item added to label successfully!\n\n"
-  end
-
-  def list_books(display_num: false)
-    puts "Amount of books: #{@books.length}" unless display_num
-    @books.each_with_index do |book, i|
-      num = display_num ? "#{i}) " : ''
-      date = book.publish_date.strftime('%m/%d/%y')
-      puts "#{num}Publish date: #{date}, Publisher: #{book.publisher}, Cover state: #{book.cover_state}"
-    end
-  end
-
-  def list_labels(display_num: false)
-    puts "Amount of labels: #{@labels.length}" unless display_num
-    @labels.each_with_index do |label, i|
-      puts "#{display_num ? "#{i}) " : ''}Title: #{label.title}, Color: #{label.color}"
-    end
-  end
-
-  def save_data
-    @store.write(@books, 'books.json')
-    @store.write(@labels, 'labels.json')
-    @store.write(@games, 'games.json')
-    @store.write(@authors, 'authors.json')
-    @store.write(@music_albums, 'music_albums.json')
-    @store.write(@genres, 'genres.json')
-  end
-
-  def load_labels
-    @store.read('labels.json').each do |label|
-      @labels.push(Label.new(label['title'], label['color'], label['id']))
-    end
-  end
-
-  def load_books
-    @store.read('books.json').each do |book|
-      # create and add book to books array
-      b = Book.new(Date.new(book['publish_date']['year'], book['publish_date']['month'], book['publish_date']['day']),
-                   book['archived'], book['publisher'], book['cover_state'], book['id'])
-      @books.push(b)
-      # if it has a label
-      label_id = book['label_id']
-      next if label_id == ''
-
-      # find it's label and add item to label
-      label = @labels.find { |l| l.id == label_id }
-      label&.add_item(b)
-    end
-  end
-
-  def load_authors
-    @store.read('authors.json').each do |author|
-      @labels.push(Author.new(author['first_name'], author['last_name'], author['id']))
-    end
-  end
-
-  def load_games
-    @store.read('games.json').each do |game|
-      # create and add book to books array
-      game_instance = Game.new(game['publish_date'], game['archived'], game['multiplayer'],
-                               game['last_played_at'], game['id'])
-      @games.push(game_instance)
-      # if it has a label
-      label_id = game['label']
-      label = @labels.find { |l| l.id == label_id }
-      label&.add_item(game_instance)
-    end
-  end
-
-  def load_data
-    load_labels
-    load_books
-    load_authors
-    load_games
-    load_music_albums
   end
 
   def add_game
@@ -164,27 +63,69 @@ class App
     puts "Author has been added to that item!\n\n"
   end
 
-  def list_games
-    puts "Amount of games: #{@games.length}"
-    @games.each do |game|
-      puts "Publish_date:#{game.publish_date}, Multiplayer?:#{game.multiplayer}, last_played_at:#{game.last_played_at}"
-    end
-  end
-
-  def list_authors(display_num: false)
-    puts "Amount of authors: #{@authors.length}" unless display_num
-    @authors.each_with_index do |author, i|
-      puts "#{i + 1} First Name: #{author.first_name}, Last Name: #{author.last_name}"
-    end
-  end
-
-  # Music Album section
-
   def add_music_album
     puts '(publish_date, genre, on_spotify)'
     music_album = MusicAlbum.new(@ask.date, @ask.boolean('On Spotify?'))
     @music_albums.push(music_album)
     puts "Music album created successfully!\n\n"
+  end
+
+  def display_label_options(category)
+    case category
+    when 'book' then list_books(display_num: true)
+      return @books
+    when 'album' then list_music_albums(display_num: true)
+      return @music_albums
+    when 'game' then list_games(display_num: true)
+      return @games
+    else
+      []
+    end
+  end
+
+  def assign_item_to_label
+    return puts 'You need to create a label first!' if @labels.empty?
+
+    category = @ask.option('Select the item you want to add a label to', %w[book album game])
+    array = display_label_options(category)
+    return puts 'There are no items of that category at the moment!' if array.empty?
+
+    item_index = @ask.number_between(array.length - 1)
+    puts 'Choose the label'
+    list_labels(display_num: true)
+    label_index = @ask.number_between(@labels.length - 1)
+    @labels[label_index].add_item(array[item_index])
+    puts "Item added to label successfully!\n\n"
+  end
+
+  def list_books(display_num: false)
+    puts "Amount of books: #{@books.length}" unless display_num
+    @books.each_with_index do |book, i|
+      num = display_num ? "#{i}) " : ''
+      date = book.publish_date.strftime('%m/%d/%y')
+      puts "#{num}Publish date: #{date}, Publisher: #{book.publisher}, Cover state: #{book.cover_state}"
+    end
+  end
+
+  def list_labels(display_num: false)
+    puts "Amount of labels: #{@labels.length}" unless display_num
+    @labels.each_with_index do |label, i|
+      puts "#{display_num ? "#{i}) " : ''}Title: #{label.title}, Color: #{label.color}"
+    end
+  end
+
+  def list_games(display_num: false)
+    puts "Amount of games: #{@games.length}" unless display_num
+    @games.each do |game|
+      puts "#{display_num ? "#{i}) " : ''}Publish_date:#{game.publish_date}, Multiplayer?:#{game.multiplayer}, last_played_at:#{game.last_played_at}"
+    end
+  end
+
+  def list_authors
+    puts "Amount of authors: #{@authors.length}"
+    @authors.each_with_index do |author, i|
+      puts "First Name: #{author.first_name}, Last Name: #{author.last_name}"
+    end
   end
 
   def list_music_albums(display_num: false)
@@ -202,25 +143,20 @@ class App
     end
   end
 
-  def load_music_albums
-    @store.read('music_albums.json').each do |album|
-      # create and add album to music_albums array
-      b = MusicAlbum.new(Date.new(album['publish_date']['year'], album['publish_date']['month'],
-                                  album['publish_date']['day']), album['on_spotify'], album['archived'], album['id'])
-      @music_albums.push(b)
-      # if it has a label
-      label_id = album['label_id']
-      next if label_id == ''
-
-      # find it's label and add item to label
-      label = @labels.find { |l| l.id == label_id }
-      label&.add_item(b)
-    end
+  def save_data
+    @store.write(@books, 'books.json')
+    @store.write(@labels, 'labels.json')
+    @store.write(@games, 'games.json')
+    @store.write(@authors, 'authors.json')
+    @store.write(@music_albums, 'music_albums.json')
+    @store.write(@genres, 'genres.json')
   end
 
-  def load_genres
-    @store.read('genres.json').each do |genre|
-      @genres.push(genre.new(genre['name'], genre['id']))
-    end
+  def load_data
+    @load.labels
+    @load.books
+    @load.authors
+    @load.games
+    @load.music_albums
   end
 end
