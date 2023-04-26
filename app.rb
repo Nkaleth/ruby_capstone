@@ -26,6 +26,7 @@ class App
 
   def add_label
     @labels.push(Label.new(@ask.string('Title'), @ask.string('Color')))
+    puts "Label created successfully\n\n"
   end
 
   def display_label_options(category)
@@ -34,7 +35,7 @@ class App
       return @books
     end
     if category == 'album'
-      # list_albums(display_num: true)
+      # list_music_albums(display_num: true)
       # return @albums
       print 'Album selected'
     end
@@ -52,12 +53,13 @@ class App
     category = @ask.option('Which item you want to add a label to', %w[book album game])
     puts 'Choose the item'
     array = display_label_options(category)
+    return puts 'There are no items of that category at the moment!' if (array.empty?)
     item_index = @ask.number_between(array.length - 1)
     puts 'Choose the label'
     list_labels(display_num: true)
     label_index = @ask.number_between(@labels.length - 1)
     @labels[label_index].add_item(array[item_index])
-    puts 'Item added to label successfully!'
+    puts "Item added to label successfully!\n\n"
   end
 
   def list_books(display_num: false)
