@@ -38,9 +38,8 @@ class App
       return @books
     end
     if category == 'album'
-      # list_music_albums(display_num: true)
-      # return @albums
-      print 'Album selected'
+      list_music_albums(display_num: true)
+      return @music_albums
     end
     if category == 'game'
       # list_games(display_num: true)
@@ -144,17 +143,18 @@ class App
     puts "Music album created successfully!\n\n"
   end
 
-  def list_music_albums
-    puts "Amount of music albums: #{@music_albums.length}"
-    @music_albums.each do |music_album|
-      puts "Publish_date:#{music_album.publish_date}, On_spotify:#{music_album.on_spotify}"
+  def list_music_albums(display_num: false)
+    puts "Amount of music albums: #{@music_albums.length}" unless display_num
+    @music_albums.each_with_index do |music_album, i|
+      num = display_num ? "#{i}) " : ''
+      puts "#{num}Publish_date: #{music_album.publish_date}, On_spotify: #{music_album.on_spotify}"
     end
   end
 
-  def list_genres
-    puts "Amount of genres: #{@genres.length}"
-    @genres.each do |genre|
-      puts "First Name: #{genre.first_name}"
+  def list_genres(display_num: false)
+    puts "Amount of genres: #{@genres.length}" unless display_num
+    @genres.each_with_index do |genre, i|
+      puts "#{display_num ? "#{i}) " : ''}Genre Name: #{genre.name}"
     end
   end
 end
