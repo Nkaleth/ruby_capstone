@@ -21,7 +21,7 @@ def run_list_option(opt, app)
   when 2 then app.list_books
   when 3 then app.list_labels
   when 4 then app.list_music_albums
-  when 5 then puts 'Genres list'
+  when 5 then app.list_genres
   when 6 then app.list_games
   when 7 then app.list_authors
   end

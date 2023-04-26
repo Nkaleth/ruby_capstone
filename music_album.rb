@@ -5,9 +5,8 @@ require './item'
 class MusicAlbum < Item
   attr_accessor :genre, :on_spotify
 
-  def initialize(publish_date, genre, on_spotify, archived: false)
+  def initialize(publish_date, on_spotify, archived: false)
     super(publish_date, archived, id)
-    @genre = genre
     @on_spotify = on_spotify
     @id = SecureRandom.uuid
   end
