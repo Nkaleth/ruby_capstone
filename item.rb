@@ -12,17 +12,17 @@ class Item
   end
 
   # Custom setter methods for many-to-one relationship
-  def add_genre=(genre)
+  def genre=(genre)
     @genre = genre
     genre.items << self
   end
 
-  def add_author=(author)
+  def author=(author)
     @author = author
     author.items << self
   end
 
-  def add_label=(label)
+  def label=(label)
     @label = label
     label.items << self
   end
