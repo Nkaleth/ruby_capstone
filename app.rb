@@ -143,4 +143,11 @@ class App
     @music_albums.push(music_album)
     puts "Music album created successfully!\n\n"
   end
+
+  def list_music_albums
+    puts "Amount of music albums: #{@music_albums.length}"
+    @music_albums.each do |music_album|
+      puts "Publish_date:#{music_album.publish_date}, Genre:#{music_album.genre}, On_spotify:#{music_album.on_spotify}"
+    end
+  end
 end
