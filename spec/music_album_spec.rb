@@ -2,39 +2,21 @@ require 'rspec'
 require './music_album'
 
 describe MusicAlbum do
-  let(:publish_date) { Date.new(2000, 10, 1) }
-  let(:genre) { 'Rock' }
-  let(:on_spotify) { true }
-  let(:archived) { false }
-  let(:music_album) { MusicAlbum.new(publish_date, genre, on_spotify, archived: archived) }
-
-  describe '#initialize' do
-    it 'creates a new MusicAlbum object with the given attributes' do
-      expect(music_album).to be_a(MusicAlbum)
-      expect(music_album.publish_date).to eq(publish_date)
-      expect(music_album.genre.name).to eq(genre)
-    end
-
-    it 'adds the new album to the items array of the Genre object' do
-      expect(music_album.genre.items).to include(music_album)
-    end
+  it 'Creates Musics Album with date, genre and spotify state' do
+    album = MusicAlbum.new(Date.new(2022, 1, 15), true, false)
+    expect(album.on_spotify).to be true
+    expect(album.publish_date.year).to eq(2022)
   end
 
-  describe '#can_be_archived?' do
-    context 'when the album is on Spotify' do
-      let(:on_spotify) { true }
+  it 'Should return true because album has more than 10 years' do
+    album2 = MusicAlbum.new(Date.new(2000, 1, 15), true, true)
+    MusicAlbum.send(:public, :can_be_archived?)
+    expect(album2.can_be_archived?).to be true
+  end
 
-      it 'returns true' do
-        expect(music_album.send(:can_be_archived?)).to eq(true)
-      end
-    end
-
-    context 'when the album is not on Spotify' do
-      let(:on_spotify) { false }
-
-      it 'returns false' do
-        expect(music_album.send(:can_be_archived?)).to eq(false)
-      end
-    end
+  it 'Should return false because album should has less than 10 years' do
+    album2 = MusicAlbum.new(Date.new(2020, 1, 15), true, false)
+    MusicAlbum.send(:public, :can_be_archived?)
+    expect(album2.can_be_archived?).to be false
   end
 end

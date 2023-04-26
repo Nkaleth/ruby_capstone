@@ -5,7 +5,6 @@ require './store'
 require './game'
 require './author'
 require './music_album'
-require './genre'
 require 'date'
 
 class App
@@ -39,9 +38,8 @@ class App
       return @books
     end
     if category == 'album'
-      # list_music_albums(display_num: true)
-      # return @albums
-      print 'Album selected'
+      list_music_albums(display_num: true)
+      return @music_albums
     end
     if category == 'game'
       list_games(display_num: true)
@@ -88,6 +86,8 @@ class App
     @store.write(@labels, 'labels.json')
     @store.write(@games, 'games.json')
     @store.write(@authors, 'authors.json')
+    @store.write(@music_albums, 'music_albums.json')
+    @store.write(@genres, 'genres.json')
   end
 
   def load_labels
@@ -144,6 +144,7 @@ class App
     load_books
     load_authors
     load_games
+    load_music_albums
   end
 
   def add_game
@@ -193,23 +194,45 @@ class App
 
   def add_music_album
     puts '(publish_date, genre, on_spotify)'
-    music_album = MusicAlbum.new(@ask.date, @ask.string('Genre'), @ask.boolean('On Spotify?'))
+    music_album = MusicAlbum.new(@ask.date, @ask.boolean('On Spotify?'))
     @music_albums.push(music_album)
-    @genres.push(music_album.genre) unless @genres.include?(music_album.genre)
     puts "Music album created successfully!\n\n"
   end
 
-  def list_music_albums
-    puts "Amount of music albums: #{@music_albums.length}"
-    @music_albums.each do |m_album|
-      puts "Publish_date:#{m_album.publish_date}, Genre:#{m_album.genre.name}, On_spotify:#{m_album.on_spotify}"
+  def list_music_albums(display_num: false)
+    puts "Amount of music albums: #{@music_albums.length}" unless display_num
+    @music_albums.each_with_index do |music_album, i|
+      num = display_num ? "#{i}) " : ''
+      puts "#{num}Publish_date: #{music_album.publish_date}, On_spotify: #{music_album.on_spotify}"
     end
   end
 
-  def list_genres
-    puts "Amount of genres: #{@genres.length}"
-    @genres.each do |genre|
-      puts "Genre name: #{genre.name}"
+  def list_genres(display_num: false)
+    puts "Amount of genres: #{@genres.length}" unless display_num
+    @genres.each_with_index do |genre, i|
+      puts "#{display_num ? "#{i}) " : ''}Genre Name: #{genre.name}"
+    end
+  end
+
+  def load_music_albums
+    @store.read('music_albums.json').each do |album|
+      # create and add album to music_albums array
+      b = MusicAlbum.new(Date.new(album['publish_date']['year'], album['publish_date']['month'],
+                                  album['publish_date']['day']), album['on_spotify'], album['archived'], album['id'])
+      @music_albums.push(b)
+      # if it has a label
+      label_id = album['label_id']
+      next if label_id == ''
+
+      # find it's label and add item to label
+      label = @labels.find { |l| l.id == label_id }
+      label&.add_item(b)
+    end
+  end
+
+  def load_genres
+    @store.read('genres.json').each do |genre|
+      @genres.push(genre.new(genre['name'], genre['id']))
     end
   end
 end
