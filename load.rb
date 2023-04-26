@@ -5,7 +5,7 @@ require './author'
 require './game'
 
 module Load
-  def labels
+  def load_labels
     @store.read('labels.json').each do |label|
       @labels.push(Label.new(label['title'], label['color'], label['id']))
     end
@@ -27,13 +27,13 @@ module Load
     end
   end
 
-  def authors
+  def load_authors
     @store.read('authors.json').each do |author|
       @authors.push(Author.new(author['first_name'], author['last_name'], author['id']))
     end
   end
 
-  def games
+  def load_games
     @store.read('games.json').each do |game|
       # create and add book to books array
       game_instance = Game.new(game['publish_date'], game['archived'], game['multiplayer'],
@@ -46,7 +46,7 @@ module Load
     end
   end
 
-  def albums
+  def load_albums
     @store.read('music_albums.json').each do |album|
       # create and add album to music_albums array
       b = MusicAlbum.new(Date.new(album['publish_date']['year'], album['publish_date']['month'],
@@ -62,7 +62,7 @@ module Load
     end
   end
 
-  def genres
+  def load_genres
     @store.read('genres.json').each do |genre|
       @genres.push(genre.new(genre['name'], genre['id']))
     end
