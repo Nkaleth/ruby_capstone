@@ -1,10 +1,10 @@
 class Ask
-  def date
+  def date(message = 'Date')
     year = 0
     month = 0
     day = 0
     loop do
-      puts 'Date'
+      puts message
       print 'Year: '
       year = gets.chomp.to_i
       print 'Month: '

@@ -34,16 +34,12 @@ class App
   def add_label
     @labels.push(Label.new(@ask.string('Title'), @ask.string('Color')))
 
-    puts "Label created successfully\n\n"
+    puts "Label created successfully!\n\n"
   end
 
   def add_game
-    puts '(publish_date, archived, multiplayer, last_played_at)'
-
-    game = Game.new(@ask.date, @ask.boolean('Archived?'), @ask.boolean('Multiplayer?'), @ask.date)
-
-    @games.push(game)
-
+    @games.push(Game.new(@ask.date('Publish date'), @ask.boolean('Archived?'), @ask.boolean('Multiplayer?'),
+                         @ask.date('Last played at')))
     puts "Game created successfully!\n\n"
   end
 
