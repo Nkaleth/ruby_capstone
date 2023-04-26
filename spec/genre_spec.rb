@@ -27,9 +27,9 @@ describe Genre do
 
   it 'Does not add the same item more than 1' do
     genre3 = Genre.new('Indie')
-    genre4 = Genre.new('Indie')
     genre3.add_item(item1)
-    genre4.add_item(item1)
+    genre3.add_item(item1)
+    genre3.add_item(item1)
     expect(genre3.items.count).to eq(1)
   end
 end

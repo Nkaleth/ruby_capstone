@@ -5,7 +5,6 @@ require './store'
 require './game'
 require './author'
 require './music_album'
-require './genre'
 require 'date'
 
 class App
@@ -142,21 +141,13 @@ class App
     puts '(publish_date, genre, on_spotify)'
     music_album = MusicAlbum.new(@ask.date, @ask.string('Genre'), @ask.boolean('On Spotify?'))
     @music_albums.push(music_album)
-    @genres.push(music_album.genre) unless @genres.include?(music_album.genre)
     puts "Music album created successfully!\n\n"
   end
 
   def list_music_albums
     puts "Amount of music albums: #{@music_albums.length}"
     @music_albums.each do |music_album|
-      puts "Publish_date:#{music_album.publish_date}, Genre:#{music_album.genre.name}, On_spotify:#{music_album.on_spotify}"
-    end
-  end
-
-  def list_genres
-    puts "Amount of genres: #{@genres.length}"
-    @genres.each do |genre|
-      puts "Genre name: #{genre.name}"
+      puts "Publish_date:#{music_album.publish_date}, Genre:#{music_album.genre}, On_spotify:#{music_album.on_spotify}"
     end
   end
 end
