@@ -44,9 +44,9 @@ class App
       print 'Album selected'
     end
     if category == 'game'
-      # list_games(display_num: true)
-      # return @games
+      list_games(display_num: true)
       print 'Game selected'
+      return @games
     end
     []
   end
@@ -86,6 +86,8 @@ class App
   def save_data
     @store.write(@books, 'books.json')
     @store.write(@labels, 'labels.json')
+    @store.write(@games, 'games.json')
+    @store.write(@authors, 'authors.json')
   end
 
   def load_labels
@@ -110,9 +112,38 @@ class App
     end
   end
 
+  def load_authors
+    @store.read('authors.json').each do |author|
+      @labels.push(Author.new(author['first_name'], author['last_name'], author['id']))
+    end
+  end
+
+  def load_games
+    @store.read('games.json').each do |game|
+      # create and add book to books array
+      game_instance = Game.new(game['publish_date'], game['archived'], game['multiplayer'],
+                                 game['last_played_at'], game['id'])
+      @games.push(game_instance)
+      # if it has a label
+      label_id = game['label']
+      author_id = game['author']
+      genre_id = game['genre']
+
+      # find it's label and add item to label
+      label = @labels.find { |l| l.id == label_id }
+      label&.add_item(game_instance)
+      author = @authors.find { |a| a.id == author_id }
+      author&.add_item(game_instance)
+      genre = @genres.find { |g| g.id == genre_id }
+      genre&.add_item(game_instance)
+    end
+  end
+
   def load_data
     load_labels
     load_books
+    load_authors
+    load_games
   end
 
   def add_game
@@ -122,6 +153,28 @@ class App
     puts "Game created successfully!\n\n"
   end
 
+  def add_author
+    puts '(first_name, last_name)'
+    @labels.push(Author.new(@ask.string('first_name'), @ask.string('last_name')))
+    puts "New author created successfully\n\n"
+  end
+
+  def add_author_to_item
+    return puts 'You need to create an author  first!' if @authors.empty?
+
+    category = @ask.option('Which item you want to add a author to', %w[book album game])
+    puts 'Choose the item'
+    array = display_label_options(category)
+    return puts 'There are no items of that category at the moment!' if array.empty?
+
+    item_index = @ask.number_between(array.length - 1)
+    puts 'Choose the author'
+    list_authors(display_num: true)
+    author_index = @ask.number_between(@labels.length - 1)
+    @authors[author_index].add_item(array[item_index])
+    puts "Author has been added to that item!\n\n"
+  end
+
   def list_games
     puts "Amount of games: #{@games.length}"
     @games.each do |game|
@@ -129,10 +182,10 @@ class App
     end
   end
 
-  def list_authors
-    puts "Amount of authors: #{@authors.length}"
-    @authors.each do |author|
-      puts "First Name: #{author.first_name}, Last Name: #{author.last_name}"
+  def list_authors(display_num: false)
+    puts "Amount of authors: #{@authors.length}" unless display_num
+    @authors.each_with_index do |author, i|
+      puts "#{i + 1} First Name: #{author.first_name}, Last Name: #{author.last_name}"
     end
   end
 
