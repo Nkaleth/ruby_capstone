@@ -45,7 +45,7 @@ class App
     end
   end
 
-  def add_label_to_item
+  def assign_item_to_label
     return puts 'You need to create a label first!' if @labels.empty?
 
     category = @ask.option('Which item you want to add a label to', %w[book album game])
