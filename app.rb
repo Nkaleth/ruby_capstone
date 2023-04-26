@@ -11,6 +11,7 @@ require './load'
 class App
   attr_accessor :books, :labels
 
+
   def initialize
     @labels = []
     @books = []
@@ -20,9 +21,8 @@ class App
     @genres = []
     @ask = Ask.new
     @store = Store.new
-    @load = Load.new(@labels, @books, @authors, @games, @music_albums, @genres)
   end
-
+  include Load
   def add_book
     @books.push(Book.new(@ask.date, @ask.boolean('Archived?'), @ask.string('Publisher'),
                          @ask.option('Cover state', %w[good bad])))
@@ -65,7 +65,7 @@ class App
 
   def add_music_album
     puts '(publish_date, genre, on_spotify)'
-    music_album = MusicAlbum.new(@ask.date, @ask.boolean('On Spotify?'))
+    music_album = MusicAlbum.new(@ask.date, @ask.boolean('On Spotify?'), @ask.boolean('Archived?'))
     @music_albums.push(music_album)
     puts "Music album created successfully!\n\n"
   end
@@ -73,11 +73,11 @@ class App
   def display_label_options(category)
     case category
     when 'book' then list_books(display_num: true)
-      return @books
+                     @books
     when 'album' then list_music_albums(display_num: true)
-      return @music_albums
+                      @music_albums
     when 'game' then list_games(display_num: true)
-      return @games
+                     @games
     else
       []
     end
@@ -116,14 +116,15 @@ class App
 
   def list_games(display_num: false)
     puts "Amount of games: #{@games.length}" unless display_num
-    @games.each do |game|
-      puts "#{display_num ? "#{i}) " : ''}Publish_date:#{game.publish_date}, Multiplayer?:#{game.multiplayer}, last_played_at:#{game.last_played_at}"
+    @games.each_with_index do |game, i|
+      num = display_num ? "#{i}) " : ''
+      puts "#{num} Published:#{game.publish_date},Multiplayer?:#{game.multiplayer}, last_played:#{game.last_played_at}"
     end
   end
 
   def list_authors
     puts "Amount of authors: #{@authors.length}"
-    @authors.each_with_index do |author, i|
+    @authors.each_with_index do |author, _i|
       puts "First Name: #{author.first_name}, Last Name: #{author.last_name}"
     end
   end
@@ -153,10 +154,10 @@ class App
   end
 
   def load_data
-    @load.labels
-    @load.books
-    @load.authors
-    @load.games
-    @load.music_albums
+    labels
+    load_books
+    authors
+    games
+    albums
   end
 end

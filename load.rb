@@ -4,24 +4,14 @@ require './book'
 require './author'
 require './game'
 
-class Load
-  def initialize(labels, books, authors, games, music_albums, genres)
-    @labels = labels
-    @books = books
-    @authors = authors
-    @games = games
-    @albums = music_albums
-    @genres = genres
-    @store = Store.new
-  end
-
+module Load
   def labels
     @store.read('labels.json').each do |label|
       @labels.push(Label.new(label['title'], label['color'], label['id']))
     end
   end
 
-  def books
+  def load_books
     @store.read('books.json').each do |book|
       # create and add book to books array
       b = Book.new(Date.new(book['publish_date']['year'], book['publish_date']['month'], book['publish_date']['day']),
@@ -61,7 +51,7 @@ class Load
       # create and add album to music_albums array
       b = MusicAlbum.new(Date.new(album['publish_date']['year'], album['publish_date']['month'],
                                   album['publish_date']['day']), album['on_spotify'], album['archived'], album['id'])
-      @albums.push(b)
+      @music_albums.push(b)
       # if it has a label
       label_id = album['label_id']
       next if label_id == ''
