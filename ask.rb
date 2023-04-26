@@ -11,14 +11,11 @@ class Ask
       month = gets.chomp.to_i
       print 'Day: '
       day = gets.chomp.to_i
-      return if day != 0 && month != 0 && year != 0 && month.between?(1, 12) && day.between?(1, 31)
+      break if day != 0 && month != 0 && year != 0 && month.between?(1, 12) && day.between?(1, 31)
 
       puts 'Invalid date!'
     end
     Date.new(year, month, day)
-  rescue ArgumentError
-    puts 'Invalid date!'
-    date
   end
 
   def boolean(question)
@@ -52,6 +49,16 @@ class Ask
       return options[answer - 1] if answer.between?(1, options.length)
 
       puts 'Option not valid!'
+    end
+  end
+
+  def number_between(max, min = 0)
+    loop do
+      print 'Write the number of the item you want to select: '
+      option = gets.chomp.to_i
+      return option if option.between?(min, max)
+
+      puts 'Number is not valid!'
     end
   end
 end
