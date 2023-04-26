@@ -85,6 +85,7 @@ class App
     @store.write(@books, 'books.json')
     @store.write(@labels, 'labels.json')
     @store.write(@music_albums, 'music_albums.json')
+    @store.write(@genres, 'genres.json')
   end
 
   def load_labels
