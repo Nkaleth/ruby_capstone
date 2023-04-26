@@ -84,6 +84,7 @@ class App
   def save_data
     @store.write(@books, 'books.json')
     @store.write(@labels, 'labels.json')
+    @store.write(@music_albums, 'music_albums.json')
   end
 
   def load_labels
@@ -111,6 +112,7 @@ class App
   def load_data
     load_labels
     load_books
+    load_music_albums
   end
 
   def add_game
@@ -155,6 +157,22 @@ class App
     puts "Amount of genres: #{@genres.length}" unless display_num
     @genres.each_with_index do |genre, i|
       puts "#{display_num ? "#{i}) " : ''}Genre Name: #{genre.name}"
+    end
+  end
+
+  def load_music_albums
+    @store.read('music_albums.json').each do |album|
+      # create and add album to music_albums array
+      b = MusicAlbum.new(Date.new(album['publish_date']['year'], album['publish_date']['month'],
+                                  album['publish_date']['day']), album['on_spotify'], album['archived'], album['id'])
+      @music_albums.push(b)
+      # if it has a label
+      label_id = album['label_id']
+      next if label_id == ''
+
+      # find it's label and add item to label
+      label = @labels.find { |l| l.id == label_id }
+      label&.add_item(b)
     end
   end
 end
