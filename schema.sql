@@ -36,3 +36,25 @@ CREATE TABLE labels(
   color VARCHAR(250),
   PRIMARY KEY(id)
 );
+
+CREATE TABLE game(
+  id INT GENERATED ALWAYS AS IDENTITY,
+  publish_date DATE,
+  archived BOOLEAN,
+  multiplayer BOOLEAN,
+  last_paleyd_at DATE,
+  label_id INT,
+  genre_id INT,
+  author_id INT,
+  CONSTRAINT fk_labels FOREIGN KEY(label_id) REFERENCES labels(id) ON DELETE CASCADE,
+  CONSTRAINT fk_authors FOREIGN KEY(author_id) REFERENCES author(id) ON DELETE CASCADE,
+  CONSTRAINT fk_genres FOREIGN KEY(genre_id) REFERENCES genres(id) ON DELETE CASCADE,
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE author(
+  id INT GENERATED ALWAYS AS IDENTITY,
+  first_name VARCHAR(250),
+  last_name VARCHAR(250),
+  PRIMARY KEY(id)
+);
