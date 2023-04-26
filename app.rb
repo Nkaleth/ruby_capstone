@@ -33,20 +33,16 @@ class App
   end
 
   def display_label_options(category)
-    if category == 'book'
-      list_books(display_num: true)
+    case category
+    when 'book' then list_books(display_num: true)
       return @books
-    end
-    if category == 'album'
-      list_music_albums(display_num: true)
+    when 'album' then list_music_albums(display_num: true)
       return @music_albums
-    end
-    if category == 'game'
-      list_games(display_num: true)
-      print 'Game selected'
+    when 'game' then list_games(display_num: true)
       return @games
+    else
+      []
     end
-    []
   end
 
   def add_label_to_item
