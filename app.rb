@@ -122,20 +122,12 @@ class App
     @store.read('games.json').each do |game|
       # create and add book to books array
       game_instance = Game.new(game['publish_date'], game['archived'], game['multiplayer'],
-                                 game['last_played_at'], game['id'])
+                               game['last_played_at'], game['id'])
       @games.push(game_instance)
       # if it has a label
       label_id = game['label']
-      author_id = game['author']
-      genre_id = game['genre']
-
-      # find it's label and add item to label
       label = @labels.find { |l| l.id == label_id }
       label&.add_item(game_instance)
-      author = @authors.find { |a| a.id == author_id }
-      author&.add_item(game_instance)
-      genre = @genres.find { |g| g.id == genre_id }
-      genre&.add_item(game_instance)
     end
   end
 
