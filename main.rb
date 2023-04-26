@@ -30,7 +30,7 @@ end
 def run_add_option(opt, app)
   case opt
   when 8 then app.add_book
-  when 9 then puts 'Add music album'
+  when 9 then app.add_music_album
   when 10 then app.add_game
   when 11 then app.add_label
   when 12 then app.add_label_to_item

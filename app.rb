@@ -4,6 +4,7 @@ require './label'
 require './store'
 require './game'
 require './author'
+require './music_album'
 require 'date'
 
 class App
@@ -14,6 +15,8 @@ class App
     @labels = []
     @games = []
     @authors = []
+    @music_albums = []
+    @genres = []
     @ask = Ask.new
     @store = Store.new
   end
@@ -130,5 +133,14 @@ class App
     @authors.each do |author|
       puts "First Name: #{author.first_name}, Last Name: #{author.last_name}"
     end
+  end
+
+  # Music Album section
+
+  def add_music_album
+    puts '(publish_date, genre, on_spotify)'
+    music_album = MusicAlbum.new(@ask.date, @ask.string('Genre'), @ask.boolean('On Spotify?'))
+    @music_albums.push(music_album)
+    puts "Music album created successfully!\n\n"
   end
 end

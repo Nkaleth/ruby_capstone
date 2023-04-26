@@ -6,7 +6,7 @@ class MusicAlbum < Item
   attr_accessor :genre, :on_spotify
 
   def initialize(publish_date, genre, on_spotify, archived: false)
-    super(Date.parse(publish_date), archived, id)
+    super(publish_date, archived, id)
     @genre = genre
     @on_spotify = on_spotify
     @id = SecureRandom.uuid
