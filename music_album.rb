@@ -1,19 +1,31 @@
 require 'securerandom'
 require 'date'
 require './item'
-require './genre'
 
 class MusicAlbum < Item
   attr_accessor :genre, :on_spotify
 
-  def initialize(publish_date, genre, on_spotify, archived: false)
+  def initialize(publish_date, on_spotify, archived, id = SecureRandom.uuid)
     super(publish_date, archived, id)
     @on_spotify = on_spotify
-    @id = SecureRandom.uuid
-    # Use the find_or_create_by_name class method to find or create
-    # a Genre object with the given name
-    @genre = Genre.find_or_create_by_name(genre)
-    @genre.add_item(self)
+  end
+
+  def as_obj
+    {
+      id: @id,
+      publish_date: {
+        year: @publish_date.year,
+        month: @publish_date.month,
+        day: @publish_date.day
+      },
+      on_spotify: @on_spotify,
+      archived: @archived,
+      label_id: @label&.id || ''
+    }
+  end
+
+  def to_json(*_args)
+    as_obj.to_json
   end
 
   private
