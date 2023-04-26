@@ -16,12 +16,8 @@ require 'date'
 
 require './load'
 
-
-
 class App
   attr_accessor :books, :labels
-
-
 
   def initialize
     @labels = []
@@ -77,8 +73,6 @@ class App
   def add_author_to_item
     return puts 'You need to create an author  first!' if @authors.empty?
 
-
-
     category = @ask.option('Which item you want to add a author to', %w[book album game])
 
     puts 'Choose the item'
@@ -86,8 +80,6 @@ class App
     array = display_label_options(category)
 
     return puts 'There are no items of that category at the moment!' if array.empty?
-
-
 
     item_index = @ask.number_between(array.length - 1)
 
@@ -137,15 +129,11 @@ class App
   def assign_item_to_label
     return puts 'You need to create a label first!' if @labels.empty?
 
-
-
     category = @ask.option('Select the item you want to add a label to', %w[book album game])
 
     array = display_label_options(category)
 
     return puts 'There are no items of that category at the moment!' if array.empty?
-
-
 
     item_index = @ask.number_between(array.length - 1)
 
