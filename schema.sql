@@ -17,4 +17,22 @@ CREATE TABLE genres(
   id INT GENERATED ALWAYS AS IDENTITY,
   name VARCHAR(250),
   PRIMARY KEY(id)
+  );
+  
+CREATE TABLE books(
+  id INT GENERATED ALWAYS AS IDENTITY,
+  publish_date DATE,
+  archived BOOLEAN,
+  publisher VARCHAR(250),
+  cover_state VARCHAR(250),
+  label_id INT,
+  CONSTRAINT fk_labels FOREIGN KEY(label_id) REFERENCES labels(id) ON DELETE CASCADE,
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE labels(
+  id INT GENERATED ALWAYS AS IDENTITY,
+  title VARCHAR(250),
+  color VARCHAR(250),
+  PRIMARY KEY(id)
 );

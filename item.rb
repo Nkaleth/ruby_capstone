@@ -22,11 +22,6 @@ class Item
     author.items << self
   end
 
-  def source=(source)
-    @source = source
-    source.items << self
-  end
-
   def label=(label)
     @label = label
     label.items << self
