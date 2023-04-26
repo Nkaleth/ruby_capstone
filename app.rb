@@ -139,7 +139,7 @@ class App
 
   def add_music_album
     puts '(publish_date, genre, on_spotify)'
-    music_album = MusicAlbum.new(@ask.date, @ask.string('Genre'), @ask.boolean('On Spotify?'))
+    music_album = MusicAlbum.new(@ask.date, @ask.boolean('On Spotify?'))
     @music_albums.push(music_album)
     puts "Music album created successfully!\n\n"
   end
@@ -147,7 +147,14 @@ class App
   def list_music_albums
     puts "Amount of music albums: #{@music_albums.length}"
     @music_albums.each do |music_album|
-      puts "Publish_date:#{music_album.publish_date}, Genre:#{music_album.genre}, On_spotify:#{music_album.on_spotify}"
+      puts "Publish_date:#{music_album.publish_date}, On_spotify:#{music_album.on_spotify}"
+    end
+  end
+
+  def list_genres
+    puts "Amount of genres: #{@genres.length}"
+    @genres.each do |genre|
+      puts "First Name: #{genre.first_name}"
     end
   end
 end
