@@ -176,4 +176,10 @@ class App
       label&.add_item(b)
     end
   end
+
+  def load_genres
+    @store.read('genres.json').each do |genre|
+      @genres.push(genre.new(genre['name'], genre['id']))
+    end
+  end
 end
