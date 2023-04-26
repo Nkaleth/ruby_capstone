@@ -33,7 +33,7 @@ def run_add_option(opt, app)
   when 9 then app.add_music_album
   when 10 then app.add_game
   when 11 then app.add_label
-  when 12 then app.add_label_to_item
+  when 12 then app.assign_item_to_label
   end
 end
 
