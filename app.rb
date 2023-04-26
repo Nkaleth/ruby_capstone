@@ -148,8 +148,8 @@ class App
 
   def list_music_albums
     puts "Amount of music albums: #{@music_albums.length}"
-    @music_albums.each do |m_album|
-      puts "Publish_date:#{m_album.publish_date}, Genre:#{m_album.genre.name}, On_spotify:#{m_album.on_spotify}"
+    @music_albums.each do |music_album|
+      puts "Publish_date:#{music_album.publish_date}, Genre:#{music_album.genre.name}, On_spotify:#{music_album.on_spotify}"
     end
   end
 
