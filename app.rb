@@ -53,7 +53,8 @@ class App
     category = @ask.option('Which item you want to add a label to', %w[book album game])
     puts 'Choose the item'
     array = display_label_options(category)
-    return puts 'There are no items of that category at the moment!' if (array.empty?)
+    return puts 'There are no items of that category at the moment!' if array.empty?
+
     item_index = @ask.number_between(array.length - 1)
     puts 'Choose the label'
     list_labels(display_num: true)
