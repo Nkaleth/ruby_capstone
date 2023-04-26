@@ -1,19 +1,11 @@
 require './ask'
-
 require './book'
-
 require './label'
-
 require './store'
-
 require './game'
-
 require './author'
-
 require './music_album'
-
 require 'date'
-
 require './load'
 
 class App
@@ -21,19 +13,12 @@ class App
 
   def initialize
     @labels = []
-
     @books = []
-
     @authors = []
-
     @games = []
-
     @music_albums = []
-
     @genres = []
-
     @ask = Ask.new
-
     @store = Store.new
   end
 
@@ -106,23 +91,14 @@ class App
 
   def display_label_options(category)
     case category
-
     when 'book' then list_books(display_num: true)
-
                      @books
-
     when 'album' then list_music_albums(display_num: true)
-
                       @music_albums
-
     when 'game' then list_games(display_num: true)
-
                      @games
-
     else
-
       []
-
     end
   end
 
@@ -130,21 +106,14 @@ class App
     return puts 'You need to create a label first!' if @labels.empty?
 
     category = @ask.option('Select the item you want to add a label to', %w[book album game])
-
     array = display_label_options(category)
-
     return puts 'There are no items of that category at the moment!' if array.empty?
 
     item_index = @ask.number_between(array.length - 1)
-
     puts 'Choose the label'
-
     list_labels(display_num: true)
-
     label_index = @ask.number_between(@labels.length - 1)
-
     @labels[label_index].add_item(array[item_index])
-
     puts "Item added to label successfully!\n\n"
   end
 
@@ -153,9 +122,7 @@ class App
 
     @books.each_with_index do |book, i|
       num = display_num ? "#{i}) " : ''
-
       date = book.publish_date.strftime('%m/%d/%y')
-
       puts "#{num}Publish date: #{date}, Publisher: #{book.publisher}, Cover state: #{book.cover_state}"
     end
   end
@@ -173,8 +140,7 @@ class App
 
     @games.each_with_index do |game, i|
       num = display_num ? "#{i}) " : ''
-
-      puts "#{num} Published:#{game.publish_date},Multiplayer?:#{game.multiplayer}, last_played:#{game.last_played_at}"
+      puts "#{num} Published:#{game.publish_date}, Multiplayer?:#{game.multiplayer}, last_played:#{game.last_played_at}"
     end
   end
 
@@ -206,27 +172,19 @@ class App
 
   def save_data
     @store.write(@books, 'books.json')
-
     @store.write(@labels, 'labels.json')
-
     @store.write(@games, 'games.json')
-
     @store.write(@authors, 'authors.json')
-
     @store.write(@music_albums, 'music_albums.json')
-
     @store.write(@genres, 'genres.json')
   end
 
   def load_data
-    labels
-
+    load_labels
     load_books
-
-    authors
-
-    games
-
-    albums
+    load_authors
+    load_games
+    load_albums
+    load_genres
   end
 end
