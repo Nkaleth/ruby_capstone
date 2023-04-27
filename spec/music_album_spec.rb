@@ -8,15 +8,27 @@ describe MusicAlbum do
     expect(album.publish_date.year).to eq(2022)
   end
 
-  it 'Should return true because album has more than 10 years' do
-    album2 = MusicAlbum.new(Date.new(2000, 1, 15), true, true)
+  it 'Should can be archived because is on spotify and is older than 10 years' do
+    album3 = MusicAlbum.new(Date.new(2000, 1, 15), true, true)
     MusicAlbum.send(:public, :can_be_archived?)
-    expect(album2.can_be_archived?).to be true
+    expect(album3.can_be_archived?).to be true
   end
 
-  it 'Should return false because album should has less than 10 years' do
-    album2 = MusicAlbum.new(Date.new(2020, 1, 15), true, false)
+  it 'Should can not be archived because is not on spotify and is older than 10 years' do
+    album3 = MusicAlbum.new(Date.new(2000, 1, 15), false, false)
     MusicAlbum.send(:public, :can_be_archived?)
-    expect(album2.can_be_archived?).to be false
+    expect(album3.can_be_archived?).to be false
+  end
+
+  it 'Should can not be archived because is on spotify and is older than 10 years' do
+    album3 = MusicAlbum.new(Date.new(2000, 1, 15), false, false)
+    MusicAlbum.send(:public, :can_be_archived?)
+    expect(album3.can_be_archived?).to be false
+  end
+
+  it 'Should can not be archived because is on spotify and is not older than 10 years' do
+    album3 = MusicAlbum.new(Date.new(2022, 1, 15), false, false)
+    MusicAlbum.send(:public, :can_be_archived?)
+    expect(album3.can_be_archived?).to be false
   end
 end
